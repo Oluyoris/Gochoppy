@@ -1,0 +1,44 @@
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+return new class extends Migration
+{
+    public function up(): void
+    {
+        Schema::create('dispatcher_profiles', function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('user_id')
+                  ->unique()
+                  ->constrained('users')
+                  ->onDelete('cascade');
+
+            $table->string('full_name');
+            $table->string('avatar')->nullable();
+
+            $table->text('address');
+
+            $table->string('plate_number');
+            $table->string('nin_number');
+
+            $table->string('grantor_name');
+            $table->text('grantor_address');
+            $table->string('grantor_image')->nullable();
+
+            $table->string('bank_name');
+            $table->string('account_number');
+            $table->string('account_name');
+
+            $table->boolean('is_active')->default(true);
+
+            $table->timestamps();
+        });
+    }
+
+    public function down(): void
+    {
+        Schema::dropIfExists('dispatcher_profiles');
+    }
+};
